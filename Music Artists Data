@@ -1,0 +1,92 @@
+# I ran these queries using a database that's holding data for the musicians and their customers.
+
+--1. List all the customers who are not from France.
+SELECT FirstName, LastName, CustomerId, Country
+FROM chinook.customers
+WHERE country<>"France";
+
+--2. List all the customers from the United Kingdom.
+SELECT *
+FROM chinook.customers
+WHERE country="United Kingdom";
+
+--3. List the invoices of customers who are from France.
+SELECT inv.InvoiceId, inv.InvoiceDate, inv.BillingCountry, cust.FirstName, cust.LastName
+FROM chinook.invoices inv
+LEFT JOIN chinook.customers cust
+ON inv.CustomerId=cust.CustomerId
+WHERE inv.BillingCountry="France";
+
+
+--4. List the top ten most popular artists.
+SELECT artist_name, popularity
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY popularity desc
+LIMIT 10;
+
+--5. List the top ten most popular songs.
+SELECT track_name, artist_name, popularity
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY popularity desc
+LIMIT 10;
+
+--6. List the artists next to their respective albums.
+SELECT art.name, alb.title
+FROM chinook.artists art
+
+LEFT JOIN chinook.albums alb
+ON art.ArtistId=alb.ArtistId
+GROUP BY art.name;
+
+--7. List the total number of invoices in 2010.
+SELECT COUNT(*)
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN '2010-01-01' AND '2010-12-31';
+
+--8. Show the total sales for 2010.
+SELECT SUM(Total)
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN '2010-01-01' AND '2010-12-31';
+
+--9. Show the total invoices from Canada.
+SELECT COUNT(BillingCountry) AS Canada
+FROM chinook.invoices
+WHERE BillingCountry='Canada';
+
+--10. Show the tracks that are in the music playlist.
+SELECT list.name AS 'List', track.name AS 'Track', track.name AS 'Composer'
+FROM chinook.playlists list
+
+JOIN chinook.playlist_track play
+ON list.PlaylistId=play.PlaylistId
+
+LEFT JOIN chinook.tracks track
+ON play.TrackId=track.TrackId;
+
+--11. Show which artists wrote which album with the track, media type, and genre.
+SELECT art.name AS 'Artist', alb.title AS 'Album', gen.name AS 'Genre', med.name AS 'Media Type'
+FROM chinook.artists art
+
+JOIN chinook.albums alb
+ON art.ArtistId=alb.ArtistId
+
+JOIN chinook.tracks track
+ON alb.AlbumId=track.AlbumId
+
+JOIN chinook.genres gen
+ON track.genreid=gen.genreid;
+
+--12. Show the total sales made by each sales agent.
+SELECT emp.firstname, emp.lastname, ROUND(SUM(inv.total), 2) as 'Total Sales'
+FROM chinook.employees emp
+
+JOIN chinook.customers cust
+ON emp.EmployeeId=cust.SupportRepId
+
+JOIN chinook.invoices inv
+ON cust.CustomerId=inv.CustomerId
+
+WHERE emp.title='Sales Support Agent'
+GROUP BY emp.firstname;
