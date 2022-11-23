@@ -18,7 +18,7 @@ INSERT INTO store VALUES (13, "rain jacket", "jackets", 26.79, 98);
 INSERT INTO store VALUES (14, "running shoes", "footwear", 28.39, 80);
 INSERT INTO store VALUES (15, "boxer shorts", "underwear", 5.99, 65);
 
---Display the database orderd by price.
+--Display the database ordered by price.
 SELECT * FROM store
 ORDER BY price DESC;
 
