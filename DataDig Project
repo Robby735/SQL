@@ -19,13 +19,13 @@ WHERE strength > 4 AND speed > 4;
 SELECT COUNT(*),
 
     CASE 
-        WHEN energy_projection > 6 THEN 'extremely strong'
-        WHEN energy_projection > 4 THEN 'really strong'
-        WHEN energy_projection > 2 THEN 'very strong'
-        ELSE 'not strong'
-        END AS 'power'
+        WHEN energy_projection > 6 THEN "high energy"
+        WHEN energy_projection > 4 THEN "mid energy"
+        WHEN energy_projection > 2 THEN "low energy"
+        ELSE "below energy levels" 
+        END AS "energetic_power"
     FROM marvels
-    GROUP BY power;
+    GROUP BY energetic_power;
 
 --List the top five most intelligent heroes.
 SELECT name, intelligence FROM marvels
