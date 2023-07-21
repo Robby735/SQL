@@ -25,7 +25,7 @@ SELECT authors.name AS authors, book_series.name AS book_series FROM authors
     ON authors.id = book_series.book_id;
     
 --List the author to its book series and tv/movie series.
-SELECT authors.name AS authors, book_series.name AS books, tv_movies.title AS title, tv_movies.type, tv_movies.release_year AS release_year 
+SELECT authors.name AS authors, book_series.name AS books, tv_movies.title AS tv_movies, tv_movies.type AS type, tv_movies.release_year AS release_year 
 FROM authors 
 
 LEFT JOIN book_series
